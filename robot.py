@@ -66,7 +66,7 @@ class Robot:
         :param seconds:int
         """
         times = seconds * 10
-        for x in xrange(0, times):
+        for x in range(0, times):
             self.publish_twist(self.move_cmd)
             self.rate.sleep()
         rospy.sleep(1)
@@ -76,7 +76,7 @@ class Robot:
         :param seconds:int
         """
         times = seconds * 10
-        for x in xrange(0, times):
+        for x in range(0, times):
             self.publish_twist(self.turn_cmd)
             self.rate.sleep()
         rospy.sleep(1)
@@ -120,7 +120,7 @@ class Robot:
      #     gray_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
      #     ret, self.binary_image = cv2.threshold(gray_image, 127, 255, cv2.THRESH_BINARY)
 
-     def get_box_position(self):
+    def get_box_position(self):
          """
          :return: list of obstacle coordinate
          """

@@ -1,6 +1,6 @@
 # coding=utf-8
 from socket import *
-import cStringIO
+from io import StringIO
 from geometry_msgs.msg import Twist, genpy
 from gazebo_msgs.msg import ModelStates
 from sensor_msgs.msg import CompressedImage,Image
@@ -18,7 +18,7 @@ class robot_cli:
         self.tcpCliSock = socket(AF_INET, SOCK_STREAM)
         addr = (host, port)
         self.tcpCliSock.connect(addr)
-        print "The connection is successful"
+        print ("The connection is successful")
 
         self.comImage = CompressedImage()
         self.image=Image()
@@ -48,9 +48,9 @@ class robot_cli:
                         print(e)
                     return cv_image
                 except genpy.DeserializationError:
-                    print rospy.loginfo("deserialize comImage failed!")
-            except Exception,msg:
-                print msg
+                    print (rospy.loginfo("deserialize comImage failed!"))
+            except Exception as msg:
+                print (msg)
                 self.isEnd=True
 
     def get_image(self):
@@ -73,9 +73,9 @@ class robot_cli:
                         print(e)
                     return cv_image
                 except genpy.DeserializationError:
-                    print rospy.loginfo("deserialize image failed!")
-            except Exception,msg:
-                print msg
+                    print (rospy.loginfo("deserialize image failed!"))
+            except Exception as msg:
+                print (msg)
                 self.isEnd=True
 
     def get_box_pos(self):
@@ -95,9 +95,9 @@ class robot_cli:
                      self.box_pos.deserialize(data)
                      return self.box_pos
                  except genpy.DeserializationError:
-                     print rospy.loginfo("deserialize box_pos failed!")
-             except Exception,msg:
-                 print msg
+                     print (rospy.loginfo("deserialize box_pos failed!"))
+             except Exception as msg:
+                 print (msg)
                  self.isEnd = True
 
     def get_time(self):
@@ -114,9 +114,9 @@ class robot_cli:
                     self.time.deserialize(data)
                     return self.time
                 except genpy.DeserializationError:
-                    print rospy.loginfo("deserialize time failed!")
-            except Exception,msg:
-                print msg
+                    print (rospy.loginfo("deserialize time failed!"))
+            except Exception as msg:
+                print (msg)
                 self.isEnd = True
 
     def publish_twist(self, twist):

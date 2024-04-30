@@ -19,14 +19,14 @@ def Run(robot):
     twist=Twist()
     twist.linear.x=1
     time=2*10
-    for i in xrange(0,time):
+    for i in range(0,time):
         robot.publish_twist(twist)
         rate.sleep()
 
     twist.angular.z=radians(90)
     twist.linear.x=0
     time=1*10
-    for i in xrange(0,time):
+    for i in range(0,time):
         robot.publish_twist(twist)
         rate.sleep()
 

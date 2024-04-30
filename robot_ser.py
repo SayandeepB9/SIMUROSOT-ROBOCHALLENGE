@@ -7,8 +7,8 @@ from geometry_msgs.msg import Twist, genpy
 from gazebo_msgs.msg import ModelStates
 from sensor_msgs.msg import CompressedImage,Image
 from rosgraph_msgs.msg import Clock
-import cStringIO
 from geometry_msgs.msg import Point
+from io import StringIO
 import threading
 import struct
 
@@ -70,7 +70,7 @@ class SimServer:
         self.tcpSock.bind(("", port))
         self.tcpSock.listen(1)
         self.connection, addr = self.tcpSock.accept()
-        print "connect successful"
+        print ("connect successful")
         while not self.isEnd:
             data=""
             try:
@@ -78,8 +78,8 @@ class SimServer:
                 if(type=="tws"):
                     data=self.connection.recv(48)
                 rospy.loginfo(type+"  "+data)
-            except Exception,msg:
-                print msg
+            except Exception as msg:
+                print (msg)
                 continue
             if self.time_begin == None:
                 self.time_begin = self.time_now
@@ -109,7 +109,7 @@ class SimServer:
             self.twist.deserialize(data)
             self.__cmd_vel.publish(self.twist)
         except genpy.DeserializationError:
-            print rospy.loginfo("deserialize twist failed!")
+            print (rospy.loginfo("deserialize twist failed!"))
 
     def send_comImg_to_client(self):
         """
@@ -117,7 +117,7 @@ class SimServer:
         :param image:
         :return:
         """
-        buff = cStringIO.StringIO()
+        buff = StringIO()
         self.comImage_data.serialize(buff)
         flag=struct.pack('i',len(buff.getvalue()))
         self.connection.send(flag)
@@ -128,9 +128,9 @@ class SimServer:
      
         :return:
         """
-        buff = cStringIO.StringIO()
+        buff = StringIO()
         self.image_data.serialize(buff)
-        print len(buff.getvalue())
+        print (len(buff.getvalue()))
         self.connection.sendall(buff.getvalue())
 
     def send_box_pos_to_client(self):
@@ -139,7 +139,7 @@ class SimServer:
          :param box_pos:
          :return:
          """
-         buff = cStringIO.StringIO()
+         buff = StringIO()
          self.box_pos.serialize(buff)
          flag=struct.pack('i',len(buff.getvalue()))
          self.connection.send(flag)
@@ -150,7 +150,7 @@ class SimServer:
       
         :return:
         """
-        buff = cStringIO.StringIO()
+        buff = StringIO()
         self.time.serialize(buff)
         self.connection.send(buff.getvalue())
 
@@ -180,7 +180,7 @@ class SimServer:
         name = 'mobile_base'
         nameRe = re.compile(reg)
         res = ModelStates()
-        for i in xrange(len(model_states.name)):
+        for i in range(len(model_states.name)):
             if nameRe.match(model_states.name[i]):
                 if len(model_states.name)==8 and model_states.name[i]=="newbox_1":
                     continue
@@ -238,7 +238,7 @@ class SimServer:
         """
         with open(self.filename,'a') as file:
             file.write(message+'\n')
-        print message
+        print (message)
 
     def inside(self,postion):
         
@@ -273,6 +273,6 @@ class SimServer:
 ###########################################################################################裁判
 
 if __name__ == '__main__':
-    filename=raw_input(">>")
+    filename = input("Enter the filename: ")
     server = SimServer(filename)
     server.serve()
