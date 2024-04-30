@@ -19,7 +19,7 @@ class ClockReceiver:
 
         addr = (host, port)
         self.time_tcpCliSock.connect(addr)
-        print "time_tcp连接成功"
+        # print "time_tcp连接成功"
 
         # clock pub
         self.clock_pub = rospy.Publisher("clock", Clock, queue_size=1000)
@@ -31,14 +31,14 @@ class ClockReceiver:
         while not self.isStop:
             try:
                 data = self.time_tcpCliSock.recv(8)
-            except Exception,msg:
-                print msg
+            except Exception as msg:
+                print (msg)
                 continue
             try:
                 self.clock.deserialize(data)
                 self.clock_pub.publish(self.clock)
             except genpy.DeserializationError:
-                print rospy.loginfo("deserialize time failed!")
+                print (rospy.loginfo("deserialize time failed!"))
 
     def __shutdown(self):
         rospy.loginfo("clock topic is shutting down")

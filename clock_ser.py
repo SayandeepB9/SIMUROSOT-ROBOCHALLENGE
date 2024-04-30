@@ -2,7 +2,7 @@
 from socket import*
 import rospy
 from rosgraph_msgs.msg import Clock
-import cStringIO
+from io import StringIO
 
 class GazeboTime:
     def __init__(self,port=8888):
@@ -14,7 +14,7 @@ class GazeboTime:
         self.time_tcpSock.bind(("", port))
         self.time_tcpSock.listen(1)
         self.time_connection, addr = self.time_tcpSock.accept()
-        print "time_tcp connect successful"
+        # print "time_tcp connect successful"
         self.time_sub = rospy.Subscriber("/clock", Clock, self.__recv_time)
 
 
@@ -24,13 +24,13 @@ class GazeboTime:
         :param data:
         :return:
         """
-        buff = cStringIO.StringIO()
+        buff = StringIO()
         data.serialize(buff)
         try:
             if(self.time_connection!=None):
                 self.time_connection.send(buff.getvalue())
-        except Exception,msg:
-            print msg
+        except Exception as msg:
+            print (msg)
             self.time_connection.close()
             self.time_connection=None
             self.time_sub.unregister()

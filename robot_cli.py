@@ -125,7 +125,7 @@ class robot_cli:
         :param twist:
         :return:
         """
-        buff = cStringIO.StringIO()
+        buff = StringIO()
         twist.serialize(buff)
         message=b"tws"
         self.tcpCliSock.sendall(message+buff.getvalue())
